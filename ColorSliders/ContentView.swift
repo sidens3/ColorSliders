@@ -20,7 +20,7 @@ struct ContentView: View {
         VStack(spacing: 40) {
             Text("\(lround(redSliderValue))")
                 .font(.largeTitle)
-            UserNameView(name: displayedName)
+            UserColorView()
             ColorSliderView(value: $redSliderValue, textColor: .red)
             ColorSliderView(value: $greenSliderValue, textColor: .green)
             ColorSliderView(value: $blueSliderValue, textColor: .blue)
@@ -64,18 +64,40 @@ struct ColorSliderView: View {
     }
 }
 
-struct UserNameView: View {
-    let name: String
-    
+//struct UserColorView: View {
+//    @Binding var color: Color
+//
+//    var body: some View {
+//        RoundedRectangle
+//            .frame(self)
+//    }
+//}
+
+//struct UserColorView: View {
+//    @Binding var color: Color
+//
+//    let size = CGSize(width: 250, height: 250)
+//
+//    var body: some View {
+//        Image(systemName: "table")
+//            .resizable()
+//            .frame(size: size)
+//            .background(color)
+//            .clipShape(Circle())
+//            .overlay(Circle().stroke(Color.red, lineWidth: 8))
+//            .foregroundColor(.red)
+//    }
+//}
+
+struct UserColorView: View {
+
+    let color: Color = .red
+
     var body: some View {
-        HStack {
-            HStack(alignment: .firstTextBaseline) {
-                Text("USER NAME: ").frame(height: 60)
-                Text("\(name)")
-                    .font(.largeTitle)
-            }
-            Spacer()
-        }
+        RoundedRectangle(cornerRadius: 16.0)
+            .frame(width: 300, height: 100)
+            .foregroundColor(color)
+            .overlay(RoundedRectangle(cornerRadius: 16.0).stroke(Color.white, lineWidth: 4))
     }
 }
 
