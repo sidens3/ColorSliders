@@ -20,9 +20,7 @@ struct ContentView: View {
         ZStack {
             Color(uiColor: .systemGray3)
                 .ignoresSafeArea()
-            VStack(spacing: 40) {
-                Text("\(lround(redSliderValue))")
-                    .font(.largeTitle)
+            VStack(spacing: 20) {
                 UserColorView(cgColor: CGColor(red: redSliderValue / 255,
                                                green: greenSliderValue / 255,
                                                blue: blueSliderValue / 255,
@@ -63,7 +61,7 @@ struct ColorSliderView: View {
     let textColor: Color
     
     var body: some View {
-        HStack {
+        HStack(spacing: 10) {
             Text("\(lround(value))").foregroundColor(textColor)
             Slider(value: $value, in: 0...255, step: 1)
             Text("\(lround(value))").foregroundColor(textColor)
@@ -71,38 +69,15 @@ struct ColorSliderView: View {
     }
 }
 
-//struct UserColorView: View {
-//    @Binding var color: Color
-//
-//    var body: some View {
-//        RoundedRectangle
-//            .frame(self)
-//    }
-//}
-
-//struct UserColorView: View {
-//    @Binding var color: Color
-//
-//    let size = CGSize(width: 250, height: 250)
-//
-//    var body: some View {
-//        Image(systemName: "table")
-//            .resizable()
-//            .frame(size: size)
-//            .background(color)
-//            .clipShape(Circle())
-//            .overlay(Circle().stroke(Color.red, lineWidth: 8))
-//            .foregroundColor(.red)
-//    }
-//}
-
 struct UserColorView: View {
 
     let cgColor: CGColor
+    let size = CGSize(width: 0.8 * UIScreen.main.bounds.width,
+                      height: 0.15 * UIScreen.main.bounds.height)
 
     var body: some View {
         RoundedRectangle(cornerRadius: 16.0)
-            .frame(width: 300, height: 100)
+            .frame(size: size)
             .foregroundColor(Color(cgColor: cgColor))
             .overlay(RoundedRectangle(cornerRadius: 16.0).stroke(Color.white, lineWidth: 4))
     }
