@@ -69,7 +69,6 @@ struct ContentView: View {
                                 blueSliderTextFieldValue = ""
                             }
                             
-                            
                             UIApplication.shared.endEditing()
                         }
                     }
@@ -96,7 +95,6 @@ struct ContentView_Previews: PreviewProvider {
 struct ColorSliderView: View {
     @Binding var placeholder: Double
     @State var userValue: String = ""
-    
     @State private var alertPresented = false
     
     let textColor: Color
@@ -119,6 +117,7 @@ struct ColorSliderView: View {
                         alertPresented = true
                         return
                     }
+                    
                     action(newValue)
                 }
                 .alert("Wrong Format", isPresented: $alertPresented, actions: {}) {
