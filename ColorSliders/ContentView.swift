@@ -12,10 +12,6 @@ struct ContentView: View {
     @State private var greenSliderValue = Double.random(in: 0...255)
     @State private var blueSliderValue = Double.random(in: 0...255)
     
-    @State private var userName = ""
-    @State private var displayedName = ""
-    @State private var alertPresented = false
-    
     var body: some View {
         ZStack {
             Color(uiColor: .systemGray3)
@@ -28,23 +24,11 @@ struct ContentView: View {
                 ColorSliderView(value: $redSliderValue, textColor: .red)
                 ColorSliderView(value: $greenSliderValue, textColor: .green)
                 ColorSliderView(value: $blueSliderValue, textColor: .blue)
-                TextField("Enter your name", text: $userName)
-                    .bordered()
 
                 Spacer()
             }
             .padding()
         }
-    }
-    
-    private func checkUserName() {
-        if let _ = Double(userName) {
-            userName = ""
-            alertPresented.toggle()
-            return
-        }
-        displayedName = userName
-        userName = ""
     }
 }
 
