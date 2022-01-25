@@ -91,12 +91,12 @@ struct ColorSliderView: View {
 
 struct UserColorView: View {
 
-    let color: Color = .red
+    let cgColor: CGColor = CGColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1)
 
     var body: some View {
         RoundedRectangle(cornerRadius: 16.0)
             .frame(width: 300, height: 100)
-            .foregroundColor(color)
+            .foregroundColor(Color(cgColor: cgColor))
             .overlay(RoundedRectangle(cornerRadius: 16.0).stroke(Color.white, lineWidth: 4))
     }
 }

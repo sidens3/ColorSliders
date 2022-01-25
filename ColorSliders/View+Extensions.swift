@@ -12,9 +12,9 @@ extension View {
         modifier(FrameFromSize(size: size))
     }
     
-    func color(color: CGColor) -> some View {
-        modifier(ColorFromCGColor(color: color))
-    }
+//    func cgColor(color: CGColor) -> some View {
+//        modifier(ColorFromCGColor(cgColor: color))
+//    }
 }
 
 struct FrameFromSize: ViewModifier {
@@ -24,11 +24,11 @@ struct FrameFromSize: ViewModifier {
             .frame(width: size.width, height: size.height)
     }
 }
-
-struct ColorFromCGColor: ViewModifier {
-    let color: CGColor
-    func body(content: Content) -> some View {
-        content
-            .foregroundColor(Color(color))
-    }
-}
+//
+//struct ColorFromCGColor: ViewModifier {
+//    let cgColor: CGColor
+//    func body(content: Content) -> some View {
+//        content
+//            .foregroundColor(Color(cgColor))
+//    }
+//}
