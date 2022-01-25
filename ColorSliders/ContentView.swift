@@ -114,7 +114,15 @@ struct ColorSliderView: View {
                 .frame(width: 70, height: 20, alignment: .trailing)
                 .keyboardType(.numberPad)
                 .onChange(of: userValue) { newValue in
+                    guard let doubleValue = Double(newValue), doubleValue <= 255 else {
+                        userValue = ""
+                        alertPresented = true
+                        return
+                    }
                     action(newValue)
+                }
+                .alert("Wrong Format", isPresented: $alertPresented, actions: {}) {
+                    Text("Enter number from 0..255")
                 }
         }
     }
