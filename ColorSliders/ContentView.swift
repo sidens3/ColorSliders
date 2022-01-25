@@ -16,19 +16,39 @@ struct ContentView: View {
         ZStack {
             Color(uiColor: .systemGray3)
                 .ignoresSafeArea()
-            VStack(spacing: 20) {
+            VStack(spacing: 60) {
                 UserColorView(cgColor: CGColor(red: redSliderValue / 255,
                                                green: greenSliderValue / 255,
                                                blue: blueSliderValue / 255,
                                                alpha: 1))
-                ColorSliderView(value: $redSliderValue, textColor: .red)
-                ColorSliderView(value: $greenSliderValue, textColor: .green)
-                ColorSliderView(value: $blueSliderValue, textColor: .blue)
-
+                VStack(spacing: 20) {
+                    ColorSliderView(value: $redSliderValue,
+                                    textColor: .red, action: {textFieldValue in
+                        print("$redSliderValue changed \(textFieldValue)")
+                        checkRedTextField(value: textFieldValue)
+                    })
+                    
+                    ColorSliderView(value: $greenSliderValue,
+                                    textColor: .green, action: {textFieldValue in
+                        print("$greenSliderValue changed \(textFieldValue)")
+                    })
+                    
+                    ColorSliderView(value: $blueSliderValue,
+                                    textColor: .blue, action: {textFieldValue in
+                        print("$blueSliderValue changed \(textFieldValue)")
+                    })
+                    
+                }
+                
                 Spacer()
             }
             .padding()
         }
+    }
+    
+    private func checkRedTextField(value: String) {
+        guard let newValue = Double(value) else { return }
+        redSliderValue = newValue
     }
 }
 
@@ -40,15 +60,22 @@ struct ContentView_Previews: PreviewProvider {
 
 struct ColorSliderView: View {
     @Binding var value: Double
+    @State var userValue: String = ""
     
-    @State private var displayedValue = "0"
     let textColor: Color
+    let action: (String) -> Void
+    
+    
     
     var body: some View {
         HStack(spacing: 10) {
             Text("\(lround(value))").foregroundColor(textColor)
+                .frame(width: 40, height: 20, alignment: .leading)
             Slider(value: $value, in: 0...255, step: 1)
-            Text("\(lround(value))").foregroundColor(textColor)
+            TextField("\(lround(value))", text: $userValue)
+                .bordered()
+                .background()
+                .frame(width: 70, height: 20, alignment: .trailing)
         }
     }
 }
@@ -64,24 +91,5 @@ struct UserColorView: View {
             .frame(size: size)
             .foregroundColor(Color(cgColor: cgColor))
             .overlay(RoundedRectangle(cornerRadius: 16.0).stroke(Color.white, lineWidth: 4))
-    }
-}
-
-struct BorderedViewModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(lineWidth: 2)
-                    .foregroundColor(.blue)
-            )
-            .shadow(color: Color.gray.opacity(0.4), radius: 3, x: 1, y: 2)
-    }
-}
-
-extension TextField {
-    func bordered() -> some View {
-        ModifiedContent(content: self, modifier: BorderedViewModifier())
     }
 }
