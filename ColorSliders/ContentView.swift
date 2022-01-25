@@ -32,17 +32,17 @@ struct ContentView: View {
                                                blue: blueSliderValue / 255,
                                                alpha: 1))
                 VStack(spacing: 20) {
-                    ColorSliderView(value: $redSliderValue,
+                    ColorSliderView(placeholder: $redSliderValue,
                                     textColor: .red, action: {textFieldValue in
                         redSliderTextFieldValue = textFieldValue
                     })
                     
-                    ColorSliderView(value: $greenSliderValue,
+                    ColorSliderView(placeholder: $greenSliderValue,
                                     textColor: .green, action: {textFieldValue in
                         greenSliderTextFieldValue = textFieldValue
                     })
                     
-                    ColorSliderView(value: $blueSliderValue,
+                    ColorSliderView(placeholder: $blueSliderValue,
                                     textColor: .blue, action: {textFieldValue in
                         blueSliderTextFieldValue = textFieldValue
                     })
@@ -94,7 +94,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct ColorSliderView: View {
-    @Binding var value: Double
+    @Binding var placeholder: Double
     @State var userValue: String = ""
     
     @State private var alertPresented = false
@@ -104,16 +104,16 @@ struct ColorSliderView: View {
     
     var body: some View {
         HStack(spacing: 10) {
-            Text("\(lround(value))").foregroundColor(textColor)
+            Text("\(lround(placeholder))").foregroundColor(textColor)
                 .frame(width: 40, height: 20, alignment: .leading)
-            Slider(value: $value, in: 0...255, step: 1)
-            TextField("\(lround(value))", text: $userValue)
+            Slider(value: $placeholder, in: 0...255, step: 1)
+                .accentColor(textColor)
+            TextField("\(lround(placeholder))", text: $userValue)
                 .bordered()
                 .background()
                 .frame(width: 70, height: 20, alignment: .trailing)
                 .keyboardType(.numberPad)
                 .onChange(of: userValue) { newValue in
-                    guard let doubleValue = Double (newValue) else { return }
                     action(newValue)
                 }
         }
