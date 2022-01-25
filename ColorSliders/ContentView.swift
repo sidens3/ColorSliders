@@ -20,7 +20,10 @@ struct ContentView: View {
         VStack(spacing: 40) {
             Text("\(lround(redSliderValue))")
                 .font(.largeTitle)
-            UserColorView()
+            UserColorView(cgColor: CGColor(red: redSliderValue / 255,
+                                           green: greenSliderValue / 255,
+                                           blue: blueSliderValue / 255,
+                                           alpha: 1))
             ColorSliderView(value: $redSliderValue, textColor: .red)
             ColorSliderView(value: $greenSliderValue, textColor: .green)
             ColorSliderView(value: $blueSliderValue, textColor: .blue)
@@ -91,7 +94,7 @@ struct ColorSliderView: View {
 
 struct UserColorView: View {
 
-    let cgColor: CGColor = CGColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1)
+    let cgColor: CGColor
 
     var body: some View {
         RoundedRectangle(cornerRadius: 16.0)
