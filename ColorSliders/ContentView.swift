@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    enum FieldType {
+        case redSlider
+        case greenSlider
+        case blueSlider
+    }
+    
     @State private var redSliderValue = Double.random(in: 0...255)
     @State private var greenSliderValue = Double.random(in: 0...255)
     @State private var blueSliderValue = Double.random(in: 0...255)
     
-    @FocusState var isInputActive: Bool
+    @State private var redSliderTextFieldValue = ""
+    @State private var greenSliderTextFieldValue = ""
+    @State private var blueSliderTextFieldValue = ""
     
     var body: some View {
         ZStack {
@@ -26,25 +34,42 @@ struct ContentView: View {
                 VStack(spacing: 20) {
                     ColorSliderView(value: $redSliderValue,
                                     textColor: .red, action: {textFieldValue in
-                        print("$redSliderValue changed \(textFieldValue)")
-                        checkRedTextField(value: textFieldValue)
+                        redSliderTextFieldValue = textFieldValue
                     })
                     
                     ColorSliderView(value: $greenSliderValue,
                                     textColor: .green, action: {textFieldValue in
-                        print("$greenSliderValue changed \(textFieldValue)")
+                        greenSliderTextFieldValue = textFieldValue
                     })
                     
                     ColorSliderView(value: $blueSliderValue,
                                     textColor: .blue, action: {textFieldValue in
-                        print("$blueSliderValue changed \(textFieldValue)")
+                        blueSliderTextFieldValue = textFieldValue
                     })
                     
                 }.toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
                         Button("Done") {
-                            print("Clicked")
+                            if redSliderTextFieldValue != "" {
+                                guard let doubleValue = Double(redSliderTextFieldValue) else { return }
+                                redSliderValue = doubleValue
+                                redSliderTextFieldValue = ""
+                            }
+                            
+                            if greenSliderTextFieldValue != "" {
+                                guard let doubleValue = Double(greenSliderTextFieldValue) else { return }
+                                greenSliderValue = doubleValue
+                                greenSliderTextFieldValue = ""
+                            }
+                            
+                            if blueSliderTextFieldValue != "" {
+                                guard let doubleValue = Double(blueSliderTextFieldValue) else { return }
+                                blueSliderValue = doubleValue
+                                blueSliderTextFieldValue = ""
+                            }
+                            
+                            
                             UIApplication.shared.endEditing()
                         }
                     }
@@ -76,9 +101,6 @@ struct ColorSliderView: View {
     
     let textColor: Color
     var action: (String) -> Void
-    //    let action: (String) -> Void
-    
-    
     
     var body: some View {
         HStack(spacing: 10) {
@@ -90,6 +112,10 @@ struct ColorSliderView: View {
                 .background()
                 .frame(width: 70, height: 20, alignment: .trailing)
                 .keyboardType(.numberPad)
+                .onChange(of: userValue) { newValue in
+                    guard let doubleValue = Double (newValue) else { return }
+                    action(newValue)
+                }
         }
     }
 }
