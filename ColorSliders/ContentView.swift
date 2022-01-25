@@ -17,22 +17,26 @@ struct ContentView: View {
     @State private var alertPresented = false
     
     var body: some View {
-        VStack(spacing: 40) {
-            Text("\(lround(redSliderValue))")
-                .font(.largeTitle)
-            UserColorView(cgColor: CGColor(red: redSliderValue / 255,
-                                           green: greenSliderValue / 255,
-                                           blue: blueSliderValue / 255,
-                                           alpha: 1))
-            ColorSliderView(value: $redSliderValue, textColor: .red)
-            ColorSliderView(value: $greenSliderValue, textColor: .green)
-            ColorSliderView(value: $blueSliderValue, textColor: .blue)
-            TextField("Enter your name", text: $userName)
-                .bordered()
+        ZStack {
+            Color(uiColor: .systemGray3)
+                .ignoresSafeArea()
+            VStack(spacing: 40) {
+                Text("\(lround(redSliderValue))")
+                    .font(.largeTitle)
+                UserColorView(cgColor: CGColor(red: redSliderValue / 255,
+                                               green: greenSliderValue / 255,
+                                               blue: blueSliderValue / 255,
+                                               alpha: 1))
+                ColorSliderView(value: $redSliderValue, textColor: .red)
+                ColorSliderView(value: $greenSliderValue, textColor: .green)
+                ColorSliderView(value: $blueSliderValue, textColor: .blue)
+                TextField("Enter your name", text: $userName)
+                    .bordered()
 
-            Spacer()
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
     }
     
     private func checkUserName() {
